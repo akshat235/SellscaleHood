@@ -5,8 +5,11 @@ from auth import auth_blueprint
 from stock import stock_blueprint
 from portfolio import portfolio_blueprint
 from routes import routes_blueprint
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 # Set app configuration
 app.config['SECRET_KEY'] = 'sellscale@akshat235'
@@ -25,5 +28,5 @@ app.register_blueprint(routes_blueprint, url_prefix='/')
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()  # Create database tables if they don't exist
-        start_scheduler()  # Start scheduler
+        # start_scheduler()  # Start scheduler
     app.run(debug=True)

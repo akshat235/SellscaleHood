@@ -21,19 +21,15 @@ def view_portfolio():
 def portfolio_stats():
     try:
         user_id = get_user_id_from_token()
-
         portfolio = Portfolio.query.filter_by(user_id=user_id).all()
-
         total_invested = sum([
             entry.quantity * yf.Ticker(entry.ticker).history(period='1d')['Close'].iloc[-1]
             for entry in portfolio
         ])
-
         current_value = sum([
             entry.quantity * yf.Ticker(entry.ticker).fast_info['lastPrice']
             for entry in portfolio
         ])
-
         return jsonify({
             'total_invested': total_invested,
             'current_value': current_value,

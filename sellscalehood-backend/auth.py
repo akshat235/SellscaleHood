@@ -10,7 +10,6 @@ bcrypt = Bcrypt()
 
 auth_blueprint = Blueprint('auth', __name__)
 
-# Helper function to generate JWT token
 def generate_token(user_id):
     token = jwt.encode({
         'user_id': user_id,
@@ -28,18 +27,16 @@ def register():
     if not username or not password:
         return jsonify({'error': 'Username and password are required'}), 400
 
-    # Check if username already exists
     existing_user = User.query.filter_by(username=username).first()
     if existing_user:
         return jsonify({'error': 'Username already exists'}), 400
 
-    # Create a new user and hash the password
     new_user = User(username=username)
-    new_user.set_password(password)  # Hash the password with bcrypt
+    new_user.set_password(password)  
     db.session.add(new_user)
     db.session.commit()
-
-    return jsonify({'message': 'User registered successfully'}), 201
+    token = generate_token(new_user.id)
+    return jsonify({'message': 'User registered successfully', 'token': token}), 201
 
 # User login
 @auth_blueprint.route('/login', methods=['POST'])
@@ -51,7 +48,6 @@ def login():
     if not username or not password:
         return jsonify({'error': 'Username and password are required'}), 400
 
-    # Fetch the user from the database
     user = User.query.filter_by(username=username).first()
 
     # If the user exists and the password is correct, generate a JWT token

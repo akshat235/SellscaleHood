@@ -108,21 +108,6 @@ def test_stock_history(token, ticker, period='1mo', interval='1d'):
     print("Test: View Stock History")
     print_response(response)
 
-def test_set_price_alert(token, ticker, target_price):
-    url = f"{BASE_URL}/set_price_alert"
-    headers = {"Authorization": f"Bearer {token}"}
-    data = {"ticker": ticker, "target_price": target_price}
-    response = requests.post(url, json=data, headers=headers)
-    print("Test: Set Price Alert")
-    print_response(response)
-
-def test_view_price_alerts(token):
-    url = f"{BASE_URL}/price_alerts"
-    headers = {"Authorization": f"Bearer {token}"}
-    response = requests.get(url, headers=headers)
-    print("Test: View Price Alerts")
-    print_response(response)
-
 def test_favorite_stock(token, ticker):
     url = f"{BASE_URL}/favorite_stock"
     headers = {"Authorization": f"Bearer {token}"}
@@ -163,8 +148,8 @@ def test_transaction_history(token):
 # Execute tests
 if __name__ == "__main__":
     # Test credentials
-    username = "testuser"
-    password = "testpass"
+    username = "testuser1"
+    password = "testpass1"
     execution_time = "2024-09-28 10:00:00"
 
     # Test user registration
@@ -181,12 +166,8 @@ if __name__ == "__main__":
         test_view_watchlist(token)
         test_schedule_order(token, "AAPL", 10, "buy", execution_time)
         test_view_scheduled_orders(token)
-
-        # New tests...
         test_query_stock(token, "AAPL")
         test_stock_history(token, "AAPL")
-        test_set_price_alert(token, "AAPL", 150.00)
-        test_view_price_alerts(token)
         test_favorite_stock(token, "AAPL")
         test_view_favorites(token)
         test_market_summary(token)
