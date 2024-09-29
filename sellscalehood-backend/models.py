@@ -41,7 +41,6 @@ class Portfolio(db.Model):
             'action': self.action
         }
 
-# Watchlist table
 class Watchlist(db.Model):
     __tablename__ = 'watchlist'
     id = db.Column(db.Integer, primary_key=True)
